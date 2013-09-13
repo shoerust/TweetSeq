@@ -1,4 +1,4 @@
-TwitterSongs
+TweetSeq
 ============
 
-Example Processing application using twitter4j and minim.
+Prototype Processing sequencing application using twitter4j and minim.
