@@ -82,11 +82,11 @@ void draw() {
  //draw index
  line(tempo, height-400, tempo, height);
  currentTime = dateTime.getMillis() - currentTime;
- println("CurrentTime: " + currentTime);
- println("Framerate: " + frameRate);
- println("Divided: " + frameRate/currentTime);
+ //println("CurrentTime: " + currentTime);
+ //println("Framerate: " + frameRate);
+ //println("Divided: " + frameRate/currentTime);
  if (currentTime == 0) currentTime = 1;
- tempo += (frameRate/currentTime/16);
+ tempo += ((frameRate)/currentTime);
  if (tempo > width-400) tempo = 0; 
  
  //draw tweets
@@ -119,7 +119,7 @@ private void retrieveTweets() {
     QueryResult result = twitter.search(query);
     int counter = 0;
     for (Status status : result.getTweets()) {
-      list.add(new Tweet(status, 90, color(120, 120, 120), width-400, counter));
+      list.add(new Tweet(status, 180, color(120, 120, 120), width-400, counter));
       System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
       counter += 83;
     }
