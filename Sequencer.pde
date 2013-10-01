@@ -67,7 +67,7 @@ public class Sequencer {
      //println("Framerate: " + frameRate);
      //println("Divided: " + frameRate/currentTime);
      if (currentTime == 0) currentTime = 1;
-     tempo += ((frameRate)/currentTime);
+     tempo += ((frameRate)/currentTime)/2;
      if (tempo > width-400) tempo = 0; 
   }
   

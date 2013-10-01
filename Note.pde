@@ -10,7 +10,7 @@ public class Note implements AudioSignal
      {
          freq = pitch;
          level = amplitude;
-         alph = 0.955;  // Decay constant for the envelope
+         alph = 0.8;  // Decay constant for the envelope 0.955
      }
 
      void updateLevel()

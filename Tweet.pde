@@ -26,7 +26,6 @@ public class Tweet {
     this.xDifference = 0;
     this.yDifference = 0;
     this.isPlaying = false;
-    this.pitch = 0;
     this.amplitude = 0.2;
     this.piano = new ArrayList<Float>();
     piano.add(new Float(262));
@@ -46,7 +45,8 @@ public class Tweet {
     piano.add(587.0);
     piano.add(622.0);
     piano.add(659.0);
-    this.note = new Note(piano.get((int)random(0,16)), 0.2);
+    this.pitch = this.calculatePitch();
+    this.note = new Note(this.pitch, this.amplitude);
   }
 
   public float getAlpha() {
@@ -94,8 +94,58 @@ public class Tweet {
     return note.stopped();
   }
   
+  private float calculatePitch() {
+    switch (status.getText().charAt(1)) {
+      case 'a':
+      case 'b':
+        return piano.get(0);
+      case 'c':
+        return piano.get(1);
+      case 'd':
+        return piano.get(2);
+      case 'e':
+      case 'f':
+        return piano.get(3);
+      case 'g':
+      case 'h':
+        return piano.get(4);
+      case 'i':
+      case 'j':
+        return piano.get(5);
+      case 'k':
+      case 'l':
+        return piano.get(6);
+      case 'm':
+        return piano.get(7);
+      case 'n':
+        return piano.get(8);
+      case 'o':
+        return piano.get(9);
+      case 'p':
+      case 'q':
+        return piano.get(10);
+      case 'r':
+      case 's':
+        return piano.get(11);
+      case 't':
+        return piano.get(12);
+      case 'u':
+        return piano.get(13);
+      case 'v':
+        return piano.get(14);
+      case 'w':
+        return piano.get(15);
+      case 'x':
+      case 'y':
+      case 'z':
+        return piano.get(16);
+      default:
+        return piano.get(8);
+    }
+  }
+  
   public void resetNote() {
-    this.note = new Note(piano.get((int)random(0,16)), 0.2);
+    this.note = new Note(this.pitch, this.amplitude);
   }
   
 }
