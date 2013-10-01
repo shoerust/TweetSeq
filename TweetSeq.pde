@@ -27,7 +27,7 @@ void setup() {
 void draw() {
   sequencer.drawSequencer();
   sequencer.drawTimeIndicator();
-  sequencer.updateTweetLocation();
+  sequencer.updateTweets();
   sequencer.drawTweets();
 }
 

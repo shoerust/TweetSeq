@@ -5,12 +5,16 @@ public class Sequencer {
   private DateTime dateTime;
   private float currentTime;
   private ArrayList<Tweet> list;
+  private Minim minim;
+  private AudioOutput out;
   
   public Sequencer() {
       dateTime = new DateTime();
       currentTime = dateTime.getMillis();
       tempo = 0.0;
       list = new ArrayList<Tweet>();
+      minim = new Minim(this);
+      out = minim.getLineOut( Minim.MONO, 2048 );
   }
   
   public Capture getCamera() {
@@ -26,14 +30,14 @@ public class Sequencer {
      strokeWeight(4);
      smooth(8);
      //draw border lines
-     line(width-400, 0, width-400, height);
-     line(0, height-400, width-400, height-400);
+     line(width-300, 0, width-300, height);
+     line(0, height-300, width-300, height-300);
      
      //draw sequencer
      strokeWeight(3);
-     line(0, height-300, width-400, height-300);
-     line(0, height-200, width-400, height-200);
-     line(0, height-100, width-400, height-100);
+     line(0, height-300, width-300, height-300);
+     line(0, height-200, width-300, height-200);
+     line(0, height-100, width-300, height-100);
   }
   
   public void setupCamera(TweetSeq tweetSeq) {
@@ -81,7 +85,7 @@ public class Sequencer {
       QueryResult result = twitter.search(query);
       int counter = 0;
       for (Status status : result.getTweets()) {
-        list.add(new Tweet(status, 180, color(120, 120, 120), width-400, counter, 400, 83));
+        list.add(new Tweet(status, 180, color(120, 120, 120), width-400, counter, Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
         System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
         counter += 83;
       }
@@ -90,7 +94,7 @@ public class Sequencer {
     }
   }
   
-  public void updateTweetLocation() {
+  public void updateTweets() {
     int counter = 0;
     for (Tweet tweet : list) {
       if (keyPressed) {
@@ -108,7 +112,7 @@ public class Sequencer {
      strokeWeight(1);
      for (Tweet tweet : list) {
        fill(tweet.getColor(), tweet.getAlpha());
-       rect(tweet.getX(), tweet.getY(), 500, 80, 20);
+       rect(tweet.getX(), tweet.getY(), Constants.TWEET_WIDTH, 80, 20);
        fill(0, 100);
        text("@" + tweet.getStatus().getUser().getScreenName() + "\n " + tweet.getStatus().getText(), tweet.getX() + 50 + tweet.getPadding(), tweet.getY() + tweet.getPadding(), 270, 85);
        PImage img = loadImage("output/" + tweet.getStatus().getUser().getScreenName() + ".jpg");
@@ -117,9 +121,20 @@ public class Sequencer {
          img.save("output/" + tweet.getStatus().getUser().getScreenName() + ".jpg");
        }
        image(img, tweet.getX() + tweet.getPadding(), tweet.getY() + tweet.getPadding() + 5);
+       if (tweet.collision(tempo) && !tweet.isPlaying()) {
+         tweet.playNote(this.out);
+       }
+       if (tweet.noteStopped()) {
+         tweet.setPlaying(false);
+         tweet.resetNote();
+       }
      }
   }
   
+  /**
+   * We move the active element to the beginning of the ArrayList
+   * to ensure we detect the move the correct tweet when 2 crossover.
+   */
   public void swapElements(int location) {
     Tweet tempTweet = list.get(0);
     list.set(0, list.get(location));

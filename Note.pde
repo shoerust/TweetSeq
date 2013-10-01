@@ -1,17 +1,16 @@
-public class MyNote implements AudioSignal
+public class Note implements AudioSignal
 {
      private float freq;
      private float level;
      private float alph;
      private SineWave sine;
+     private AudioOutput out;
      
-     MyNote(float pitch, float amplitude)
+     Note(float pitch, float amplitude)
      {
          freq = pitch;
          level = amplitude;
-         sine = new SineWave(freq, level, out.sampleRate());
          alph = 0.955;  // Decay constant for the envelope
-         out.addSignal(this);
      }
 
      void updateLevel()
@@ -22,7 +21,7 @@ public class MyNote implements AudioSignal
          
          // This also handles stopping this oscillator when its level is very low.
          if (level < 0.001) {
-             out.removeSignal(this);
+             this.out.removeSignal(this);
          }
          // this will lead to destruction of the object, since the only active 
          // reference to it is from the LineOut
@@ -41,6 +40,16 @@ public class MyNote implements AudioSignal
     {
         sine.generate(sampL, sampR);
         updateLevel();
+    }
+    
+    void addNote(AudioOutput out) {
+       sine = new SineWave(freq, level, out.sampleRate());
+       this.out = out;
+       this.out.addSignal(this);
+    }
+    
+    public boolean stopped() {
+      return level < 0.001;
     }
 
 }
