@@ -1,4 +1,4 @@
-class MyNote implements AudioSignal
+public class MyNote implements AudioSignal
 {
      private float freq;
      private float level;
