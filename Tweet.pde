@@ -152,4 +152,19 @@ public class Tweet {
     this.note = new Note(this.pitch, this.amplitude);
   }
   
+  public void drawTweet() {
+    fill(getColor(), getAlpha());
+    rect(getX(), getY(), Constants.TWEET_WIDTH, 80, 20);
+    fill(0, 100);
+    text("@" + getStatus().getUser().getScreenName() + "\n " 
+      + getStatus().getText(), getX() + 50 + getPadding(), 
+      getY() + getPadding(), 220, 85);
+    PImage img = loadImage("output/" + getStatus().getUser().getScreenName() + ".jpg");
+    if (img == null) {
+      img = loadImage(getStatus().getUser().getProfileImageURL(), "jpeg");
+      img.save("output/" + getStatus().getUser().getScreenName() + ".jpg");
+    }
+    image(img, getX() + getPadding(), getY() + getPadding() + 5);
+  }
+  
 }

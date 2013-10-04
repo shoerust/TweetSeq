@@ -122,18 +122,7 @@ public class Sequencer {
      strokeWeight(1);
      stroke(0);
      for (Tweet tweet : Reversed.reversed(list)) {
-       fill(tweet.getColor(), tweet.getAlpha());
-       rect(tweet.getX(), tweet.getY(), Constants.TWEET_WIDTH, 80, 20);
-       fill(0, 100);
-       text("@" + tweet.getStatus().getUser().getScreenName() + "\n " 
-         + tweet.getStatus().getText(), tweet.getX() + 50 + tweet.getPadding(), 
-         tweet.getY() + tweet.getPadding(), 220, 85);
-       PImage img = loadImage("output/" + tweet.getStatus().getUser().getScreenName() + ".jpg");
-       if (img == null) {
-         img = loadImage(tweet.getStatus().getUser().getProfileImageURL(), "jpeg");
-         img.save("output/" + tweet.getStatus().getUser().getScreenName() + ".jpg");
-       }
-       image(img, tweet.getX() + tweet.getPadding(), tweet.getY() + tweet.getPadding() + 5);
+       tweet.drawTweet();
        if (tweet.collision(tempo) && !tweet.isPlaying()) {
          tweet.playNote(this.out);
        }

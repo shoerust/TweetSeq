@@ -28,8 +28,8 @@ void setup() {
  
 void draw() {
   sequencer.drawSequencer();
-  sequencer.drawTimeIndicator();
   sequencer.drawTweets();
+  sequencer.drawTimeIndicator();
 }
 
 void mousePressed() {
