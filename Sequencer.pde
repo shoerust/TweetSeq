@@ -7,6 +7,8 @@ public class Sequencer {
   private ArrayList<Tweet> list;
   private Minim minim;
   private AudioOutput out;
+  private float xOffset;
+  private float yOffset;
   
   public Sequencer() {
       dateTime = new DateTime();
@@ -97,12 +99,19 @@ public class Sequencer {
     }
   }
   
-  public void updateTweets() {
+  public void updateTweet() {
+    if (list.get(0) != null)  {
+      list.get(0).updateLocation(xOffset, yOffset);
+    }
+  }
+  
+  public void setOffset() {
     int counter = 0;
     for (Tweet tweet : list) {
       if (tweet.mouseIn(mouseX, mouseY)) {
+        xOffset = mouseX - tweet.getX();
+        yOffset = mouseY - tweet.getY();
         swapElements(counter);
-        tweet.updateLocation(mouseX, mouseY);
         break;
       }
       counter++;
@@ -112,7 +121,7 @@ public class Sequencer {
   public void drawTweets() { 
      strokeWeight(1);
      stroke(0);
-     for (Tweet tweet : list) {
+     for (Tweet tweet : Reversed.reversed(list)) {
        fill(tweet.getColor(), tweet.getAlpha());
        rect(tweet.getX(), tweet.getY(), Constants.TWEET_WIDTH, 80, 20);
        fill(0, 100);

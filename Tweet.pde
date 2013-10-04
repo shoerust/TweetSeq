@@ -85,8 +85,8 @@ public class Tweet {
   }
   
   public void updateLocation(float x, float y) {
-      this.x = x-50;
-      this.y = y-50;
+      this.x = mouseX - x;
+      this.y = mouseY - y;
   }
   
   public void playNote(AudioOutput out) {

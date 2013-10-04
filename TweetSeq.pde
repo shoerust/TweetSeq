@@ -1,6 +1,8 @@
 import twitter4j.*;
 import twitter4j.TwitterResponse;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,11 +33,11 @@ void draw() {
 }
 
 void mousePressed() {
-  sequencer.updateTweets();
+  sequencer.setOffset();
 }
 
 void mouseDragged() {
-  sequencer.updateTweets();
+  sequencer.updateTweet();
 }
 
 
