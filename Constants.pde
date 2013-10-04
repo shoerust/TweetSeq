@@ -4,6 +4,6 @@ public class Constants {
   public static final int SEQUENCER_WIDTH = 400;
   public static final int SEQUENCER_HEIGHT = 400; 
   public static final int SEQUENCER_SIZE = 100;
-  public static final int TWEET_WIDTH = 350;
+  public static final int TWEET_WIDTH = 300;
   public static final int TWEET_HEIGHT = 85;
 }

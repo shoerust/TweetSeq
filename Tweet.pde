@@ -27,6 +27,10 @@ public class Tweet {
     this.yDifference = 0;
     this.isPlaying = false;
     this.amplitude = 0.2;
+    setupNote();
+  }
+  
+  private void setupNote() {
     this.piano = new ArrayList<Float>();
     piano.add(new Float(262));
     piano.add(277.0);
@@ -71,13 +75,13 @@ public class Tweet {
   public void setPlaying(boolean playing) { this.isPlaying = playing; }
   
   public boolean mouseIn(float x, float y) {
-    return (x > this.x && x < (this.x + this.tweetWidth) &&
-            y > this.y && y < (this.y + this.tweetHeight));
+    return (x >= this.x && x <= (this.x + this.tweetWidth) &&
+            y >= this.y && y <= (this.y + this.tweetHeight));
   }
   
   public boolean collision(float x) {
-      return (x > this.x && x < (this.x + this.tweetWidth) &&
-              this.y > height-400);
+      return (x >= this.x && x <= (this.x + this.tweetWidth) &&
+              this.y >= height-300);
   }
   
   public void updateLocation(float x, float y) {

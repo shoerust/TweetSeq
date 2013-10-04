@@ -23,6 +23,7 @@ public class Sequencer {
   
   public void drawSequencer() {
      background(255);
+     stroke(0);
      if (cam.available() == true) {
        cam.read();
      }
@@ -61,14 +62,15 @@ public class Sequencer {
   
   public void drawTimeIndicator() {
      //draw index
-     line(tempo, height-400, tempo, height);
+     stroke(255,0,0);
+     line(tempo, height-300, tempo, height);
      currentTime = dateTime.getMillis() - currentTime;
      //println("CurrentTime: " + currentTime);
      //println("Framerate: " + frameRate);
      //println("Divided: " + frameRate/currentTime);
      if (currentTime == 0) currentTime = 1;
      tempo += ((frameRate)/currentTime)/2;
-     if (tempo > width-400) tempo = 0; 
+     if (tempo > width-300) tempo = 0; 
   }
   
   public void retrieveTweets() {
@@ -85,7 +87,8 @@ public class Sequencer {
       QueryResult result = twitter.search(query);
       int counter = 0;
       for (Status status : result.getTweets()) {
-        list.add(new Tweet(status, 180, color(120, 120, 120), width-400, counter, Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
+        list.add(new Tweet(status, 180, color(255, 255, 255), width-300, counter, 
+          Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
         System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
         counter += 83;
       }
@@ -97,12 +100,10 @@ public class Sequencer {
   public void updateTweets() {
     int counter = 0;
     for (Tweet tweet : list) {
-      if (keyPressed) {
-        if (key == 'm' && tweet.mouseIn(mouseX, mouseY)) {
-          swapElements(counter);
-          tweet.updateLocation(mouseX, mouseY);
-          break;
-        }
+      if (tweet.mouseIn(mouseX, mouseY)) {
+        swapElements(counter);
+        tweet.updateLocation(mouseX, mouseY);
+        break;
       }
       counter++;
     }
@@ -110,11 +111,14 @@ public class Sequencer {
 
   public void drawTweets() { 
      strokeWeight(1);
+     stroke(0);
      for (Tweet tweet : list) {
        fill(tweet.getColor(), tweet.getAlpha());
        rect(tweet.getX(), tweet.getY(), Constants.TWEET_WIDTH, 80, 20);
        fill(0, 100);
-       text("@" + tweet.getStatus().getUser().getScreenName() + "\n " + tweet.getStatus().getText(), tweet.getX() + 50 + tweet.getPadding(), tweet.getY() + tweet.getPadding(), 270, 85);
+       text("@" + tweet.getStatus().getUser().getScreenName() + "\n " 
+         + tweet.getStatus().getText(), tweet.getX() + 50 + tweet.getPadding(), 
+         tweet.getY() + tweet.getPadding(), 220, 85);
        PImage img = loadImage("output/" + tweet.getStatus().getUser().getScreenName() + ".jpg");
        if (img == null) {
          img = loadImage(tweet.getStatus().getUser().getProfileImageURL(), "jpeg");

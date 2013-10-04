@@ -27,8 +27,15 @@ void setup() {
 void draw() {
   sequencer.drawSequencer();
   sequencer.drawTimeIndicator();
-  sequencer.updateTweets();
   sequencer.drawTweets();
+}
+
+void mousePressed() {
+  sequencer.updateTweets();
+}
+
+void mouseDragged() {
+  sequencer.updateTweets();
 }
 
 
