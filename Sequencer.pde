@@ -9,6 +9,7 @@ public class Sequencer {
   private AudioOutput out;
   private float xOffset;
   private float yOffset;
+  private boolean playing;
   
   public Sequencer() {
       dateTime = new DateTime();
@@ -17,6 +18,7 @@ public class Sequencer {
       list = new ArrayList<Tweet>();
       minim = new Minim(this);
       out = minim.getLineOut( Minim.MONO, 2048 );
+      playing = true;
   }
   
   public Capture getCamera() {
@@ -25,22 +27,29 @@ public class Sequencer {
   
   public void drawSequencer() {
      background(255);
-     stroke(0);
+     stroke(120);
      if (cam.available() == true) {
        cam.read();
      }
      image(cam, 0, 0);
      strokeWeight(4);
      smooth(8);
+     fill(color(255,255,255,120));
      //draw border lines
-     line(width-300, 0, width-300, height);
-     line(0, height-300, width-300, height-300);
+     rect(width-300, 0, width-300, height);
+     rect(0, height-300, width-300, height-300);
      
      //draw sequencer
      strokeWeight(3);
-     line(0, height-300, width-300, height-300);
-     line(0, height-200, width-300, height-200);
-     line(0, height-100, width-300, height-100);
+     stroke(255);
+     fill(color(120,120,120,120));
+     rect(0, height-300, width-300, height-300);
+     rect(0, height-200, width-300, height-200);
+     rect(0, height-100, width-300, height-100);
+     
+     //draw buttons
+     drawPlayButton();
+     drawStopButton();
   }
   
   public void setupCamera(TweetSeq tweetSeq) {
@@ -63,16 +72,27 @@ public class Sequencer {
   }
   
   public void drawTimeIndicator() {
-     //draw index
-     stroke(255,0,0);
-     line(tempo, height-300, tempo, height);
-     currentTime = dateTime.getMillis() - currentTime;
-     //println("CurrentTime: " + currentTime);
-     //println("Framerate: " + frameRate);
-     //println("Divided: " + frameRate/currentTime);
-     if (currentTime == 0) currentTime = 1;
-     tempo += ((frameRate)/currentTime)/2;
-     if (tempo > width-300) tempo = 0; 
+    stroke(255,0,0);
+    line(tempo, height-300, tempo, height);
+    if (playing) {
+      updateTimeIndicator();
+    }
+  }
+  
+  private void updateTimeIndicator() {
+     DateTime temp = new DateTime();
+     Period period = new Period(dateTime, temp);
+     float time = period.getSeconds();
+     if (time == 0.0) time = 1;
+     tempo += time/4;
+     if (tempo > width-300) {
+       resetTimeIndicator();
+     }
+  }
+  
+  private void resetTimeIndicator() {
+     tempo = 0; 
+     resetTweets();
   }
   
   public void retrieveTweets() {
@@ -105,6 +125,21 @@ public class Sequencer {
     }
   }
   
+  public void buttonPressed() {
+    if ((mouseX > 5 && mouseX < 55 
+        && mouseY > 5 && mouseY < 55)) {
+      if (playing)
+        playing = false;
+      else
+        playing = true;
+    }
+    if ((mouseX > 65 && mouseX < 115 
+        && mouseY > 5 && mouseY < 55)) {
+        playing = false;
+        resetTimeIndicator();
+    }
+  }
+  
   public void setOffset() {
     int counter = 0;
     for (Tweet tweet : list) {
@@ -123,14 +158,45 @@ public class Sequencer {
      stroke(0);
      for (Tweet tweet : Reversed.reversed(list)) {
        tweet.drawTweet();
-       if (tweet.collision(tempo) && !tweet.isPlaying()) {
+       if (!tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
          tweet.playNote(this.out);
        }
        if (tweet.noteStopped()) {
          tweet.setPlaying(false);
+         tweet.setPlayed(true);
          tweet.resetNote();
        }
      }
+  }
+  
+  private void drawPlayButton() {
+    //play/pause button
+    stroke(120);
+    fill(color(255, 255, 255, 120));
+    rect(5, 5, 50, 50);
+    stroke(120);
+    fill(color(120, 120, 120, 120));
+    if (playing) {
+      rect(15, 10, 10, 40);
+      rect(35, 10, 10, 40);
+    } else {
+      triangle(10, 10, 10, 50, 50, 30);
+    }
+  }
+  
+  private void drawStopButton() {  
+    //stop button
+    stroke(120);
+    fill(color(255, 255, 255, 120));
+    rect(65, 5, 50, 50);
+    stroke(120);
+    fill(color(120, 120, 120, 120));
+    rect(70, 10, 40, 40);
+  }
+  
+  private void resetTweets() {
+    for (Tweet tweet : list)
+      tweet.setPlayed(false);
   }
   
   /**

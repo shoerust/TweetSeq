@@ -33,6 +33,7 @@ void draw() {
 }
 
 void mousePressed() {
+  sequencer.buttonPressed();
   sequencer.setOffset();
 }
 
