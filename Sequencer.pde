@@ -84,7 +84,8 @@ public class Sequencer {
      Period period = new Period(dateTime, temp);
      float time = period.getSeconds();
      if (time == 0.0) time = 1;
-     tempo += time/4;
+     tempo += time*4;
+     dateTime = temp;
      if (tempo > width-300) {
        resetTimeIndicator();
      }
@@ -112,7 +113,7 @@ public class Sequencer {
         list.add(new Tweet(status, 180, color(255, 255, 255), width-300, counter, 
           Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
         System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-        counter += 83;
+        counter += Constants.TWEET_HEIGHT + 2;
       }
     } catch (TwitterException e) {
       e.printStackTrace();

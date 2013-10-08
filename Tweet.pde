@@ -55,18 +55,9 @@ public class Tweet {
     this.note = new Note(this.pitch, this.amplitude);
   }
 
-  public float getAlpha() {
-    return alpha;
-  }
-  
-  public color getColor() {
-    return c;
-  }
-  
-  public void setAlpha(float alpha) {
-    this.alpha = alpha;
-  }
-  
+  public float getAlpha() { return this.alpha; }
+  public color getColor() { return this.c; }
+  public void setAlpha(float alpha) { this.alpha = alpha; }
   public float getX() { return this.x; }
   public float getY() { return this.y; }
   public Status getStatus() { return this.status; }
@@ -103,7 +94,7 @@ public class Tweet {
   }
   
   private float calculatePitch() {
-    switch (status.getText().charAt(1)) {
+    switch (status.getText().charAt(3)) {
       case 'a':
       case 'b':
         return piano.get(0);
@@ -159,7 +150,7 @@ public class Tweet {
   public void drawTweet() {
     stroke(120);
     fill(getColor(), getAlpha());
-    rect(getX(), getY(), Constants.TWEET_WIDTH, 80, 20);
+    rect(getX(), getY(), Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT, 20);
     fill(0, 100);
     text("@" + getStatus().getUser().getScreenName() + "\n " 
       + getStatus().getText(), getX() + 50 + getPadding(), 
