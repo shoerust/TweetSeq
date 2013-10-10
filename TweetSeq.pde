@@ -31,8 +31,13 @@ void draw() {
 }
 
 void mousePressed() {
-  sequencer.buttonPressed();
-  sequencer.setOffset();
+  if (mouseButton == LEFT) {
+    sequencer.resetTweets();
+    sequencer.buttonPressed();
+    sequencer.setOffset();
+  } else if (mouseButton == RIGHT) {
+    sequencer.playSample();
+  }
 }
 
 void mouseDragged() {

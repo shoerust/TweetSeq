@@ -4,6 +4,7 @@ public class Sequencer {
   private float tempo;
   private DateTime dateTime;
   private ArrayList<Tweet> tweetList;
+  private ArrayList<Tweet> activeTweetList;
   private Minim minim;
   private AudioOutput out;
   private float xOffset;
@@ -14,8 +15,9 @@ public class Sequencer {
       dateTime = new DateTime();
       tempo = 0.0;
       tweetList = new ArrayList<Tweet>();
+      activeTweetList = new ArrayList<Tweet>();
       minim = new Minim(this);
-      out = minim.getLineOut( Minim.MONO, 2048 );
+      out = minim.getLineOut( Minim.STEREO, 2048 );
       playing = false;
   }
   
@@ -48,6 +50,7 @@ public class Sequencer {
      //draw buttons
      drawPlayButton();
      drawStopButton();
+     drawRefreshButton();
   }
   
   public void setupCamera(TweetSeq tweetSeq) {
@@ -79,6 +82,7 @@ public class Sequencer {
      Period period = new Period(dateTime, temp);
      float time = period.getSeconds();
      if (time == 0.0) time = 1;
+     if (time > 1.0) time = 1;
      tempo += time*4;
      dateTime = temp;
      if (tempo > width-300) {
@@ -117,12 +121,13 @@ public class Sequencer {
   }
   
   public void updateTweet() {
-    if (tweetList.get(0) != null)  {
-      tweetList.get(0).updateLocation(xOffset, yOffset);
+    if (activeTweetList != null && activeTweetList.get(activeTweetList.size()-1) != null)  {
+      activeTweetList.get(activeTweetList.size()-1).updateLocation(xOffset, yOffset);
     }
   }
   
   public void buttonPressed() {
+    //play/pause
     if ((mouseX > 5 && mouseX < 55 
         && mouseY > 5 && mouseY < 55)) {
       if (playing)
@@ -130,10 +135,16 @@ public class Sequencer {
       else
         playing = true;
     }
+    //stop
     if ((mouseX > 65 && mouseX < 115 
         && mouseY > 5 && mouseY < 55)) {
         playing = false;
         resetTimeIndicator();
+    }
+    //refresh
+    if ((mouseX > Constants.APPLICATION_WIDTH-360 && mouseX < Constants.APPLICATION_WIDTH-310)
+         && (mouseY > 5 && mouseY < 55)) {
+       retrieveTweets();
     }
   }
   
@@ -143,26 +154,45 @@ public class Sequencer {
       if (tweet.mouseIn(mouseX, mouseY)) {
         xOffset = mouseX - tweet.getX();
         yOffset = mouseY - tweet.getY();
-        swapElements(counter);
+        addActiveTweet(counter);
         break;
       }
       counter++;
+    }
+  }
+  
+  public void playSample() {
+    for (Tweet tweet : tweetList) {
+      if (tweet.mouseIn(mouseX, mouseY)) {
+        tweet.playNote(out);
+        break;
+      }
     }
   }
 
   public void drawTweets() { 
      strokeWeight(1);
      stroke(0);
+     //draw list
      for (Tweet tweet : Reversed.reversed(tweetList)) {
+       tweet.drawTweet();
+       testStopped(tweet);
+     }
+     //draw active tweets
+     for (Tweet tweet : activeTweetList) {
        tweet.drawTweet();
        if (!tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
          tweet.playNote(this.out);
        }
-       if (tweet.noteStopped()) {
-         tweet.setPlaying(false);
-         tweet.setPlayed(true);
-         tweet.resetNote();
-       }
+       testStopped(tweet);
+     }
+  }
+  
+  private void testStopped(Tweet tweet) {
+     if (tweet.noteStopped()) {
+       tweet.setPlaying(false);
+       tweet.setPlayed(true);
+       tweet.resetNote();
      }
   }
   
@@ -191,18 +221,23 @@ public class Sequencer {
     rect(70, 10, 40, 40);
   }
   
+  private void drawRefreshButton() {
+    stroke(120);
+    fill(color(255, 255, 255, 120));
+    rect(Constants.APPLICATION_WIDTH-360, 5, 50, 50);
+    stroke(120);
+    fill(color(255, 255, 255));
+    ellipse(Constants.APPLICATION_WIDTH-335, 30, 40, 40);
+  }
+  
   private void resetTweets() {
-    for (Tweet tweet : tweetList)
+    for (Tweet tweet : activeTweetList)
       tweet.setPlayed(false);
   }
   
-  /**
-   * We move the active element to the beginning of the ArrayList
-   * to ensure we detect the move the correct tweet when 2 crossover.
-   */
-  public void swapElements(int location) {
-    Tweet tempTweet = tweetList.get(0);
-    tweetList.set(0, tweetList.get(location));
-    tweetList.set(location, tempTweet);
+  public void addActiveTweet(int location) {
+    Tweet tweet = tweetList.get(location);
+    activeTweetList.add(new Tweet(tweet.getStatus(), 180, color(255, 255, 255), tweet.getX(), tweet.getY(), 
+          Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
   }
 }
