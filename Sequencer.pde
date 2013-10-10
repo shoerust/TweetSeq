@@ -3,8 +3,7 @@ public class Sequencer {
   private Capture cam;
   private float tempo;
   private DateTime dateTime;
-  private float currentTime;
-  private ArrayList<Tweet> list;
+  private ArrayList<Tweet> tweetList;
   private Minim minim;
   private AudioOutput out;
   private float xOffset;
@@ -13,9 +12,8 @@ public class Sequencer {
   
   public Sequencer() {
       dateTime = new DateTime();
-      currentTime = dateTime.getMillis();
       tempo = 0.0;
-      list = new ArrayList<Tweet>();
+      tweetList = new ArrayList<Tweet>();
       minim = new Minim(this);
       out = minim.getLineOut( Minim.MONO, 2048 );
       playing = true;
@@ -27,12 +25,12 @@ public class Sequencer {
   
   public void drawSequencer() {
      background(255);
-     stroke(120);
      if (cam.available() == true) {
        cam.read();
      }
      image(cam, 0, 0);
      strokeWeight(4);
+     stroke(255);
      smooth(8);
      fill(color(255,255,255,120));
      //draw border lines
@@ -110,7 +108,7 @@ public class Sequencer {
       QueryResult result = twitter.search(query);
       int counter = 0;
       for (Status status : result.getTweets()) {
-        list.add(new Tweet(status, 180, color(255, 255, 255), width-300, counter, 
+        tweetList.add(new Tweet(status, 180, color(255, 255, 255), width-Constants.TWEET_WIDTH, counter, 
           Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
         System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
         counter += Constants.TWEET_HEIGHT + 2;
@@ -121,8 +119,8 @@ public class Sequencer {
   }
   
   public void updateTweet() {
-    if (list.get(0) != null)  {
-      list.get(0).updateLocation(xOffset, yOffset);
+    if (tweetList.get(0) != null)  {
+      tweetList.get(0).updateLocation(xOffset, yOffset);
     }
   }
   
@@ -143,7 +141,7 @@ public class Sequencer {
   
   public void setOffset() {
     int counter = 0;
-    for (Tweet tweet : list) {
+    for (Tweet tweet : tweetList) {
       if (tweet.mouseIn(mouseX, mouseY)) {
         xOffset = mouseX - tweet.getX();
         yOffset = mouseY - tweet.getY();
@@ -157,7 +155,7 @@ public class Sequencer {
   public void drawTweets() { 
      strokeWeight(1);
      stroke(0);
-     for (Tweet tweet : Reversed.reversed(list)) {
+     for (Tweet tweet : Reversed.reversed(tweetList)) {
        tweet.drawTweet();
        if (!tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
          tweet.playNote(this.out);
@@ -196,7 +194,7 @@ public class Sequencer {
   }
   
   private void resetTweets() {
-    for (Tweet tweet : list)
+    for (Tweet tweet : tweetList)
       tweet.setPlayed(false);
   }
   
@@ -205,8 +203,8 @@ public class Sequencer {
    * to ensure we detect the move the correct tweet when 2 crossover.
    */
   public void swapElements(int location) {
-    Tweet tempTweet = list.get(0);
-    list.set(0, list.get(location));
-    list.set(location, tempTweet);
+    Tweet tempTweet = tweetList.get(0);
+    tweetList.set(0, tweetList.get(location));
+    tweetList.set(location, tempTweet);
   }
 }

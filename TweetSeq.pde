@@ -12,9 +12,7 @@ import processing.video.*;
 import ddf.minim.analysis.*;
 import ddf.minim.*;
 import ddf.minim.signals.*;
- 
-private Minim minim;
-private AudioOutput out;
+
 private Sequencer sequencer;
  
 void setup() {
