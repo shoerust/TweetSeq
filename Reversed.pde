@@ -1,3 +1,6 @@
+/**
+ * Iterable implementation to allow Lists to be accessed in reverse order.
+ */
 public static class Reversed<T> implements Iterable<T> {
   private final ArrayList<T> original;
 

@@ -37,6 +37,7 @@ void mousePressed() {
     sequencer.setOffset();
   } else if (mouseButton == RIGHT) {
     sequencer.playSample();
+    sequencer.removeActiveTweet();
   }
 }
 

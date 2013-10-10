@@ -1,3 +1,8 @@
+/**
+ * The Note class uses minim to play a sine wave at a specified
+ * frequency that deteriorates at a specified constant level 
+ * over time.
+ */
 public class Note implements AudioSignal {
   private float frequency;
   private float level;

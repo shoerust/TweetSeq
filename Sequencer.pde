@@ -240,4 +240,17 @@ public class Sequencer {
     activeTweetList.add(new Tweet(tweet.getStatus(), 180, color(255, 255, 255), tweet.getX(), tweet.getY(), 
           Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
   }
+  
+  public void removeActiveTweet() {
+    if (mouseX < Constants.APPLICATION_WIDTH-300) {
+      int counter = -1;
+      for (Tweet tweet : activeTweetList) {
+        counter++;
+        if (tweet.mouseIn(mouseX, mouseY))
+          break;
+      }
+      if (counter > -1)
+        activeTweetList.remove(counter);
+    }
+  }
 }
