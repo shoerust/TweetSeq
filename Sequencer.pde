@@ -16,7 +16,7 @@ public class Sequencer {
       tweetList = new ArrayList<Tweet>();
       minim = new Minim(this);
       out = minim.getLineOut( Minim.MONO, 2048 );
-      playing = true;
+      playing = false;
   }
   
   public Capture getCamera() {
@@ -61,9 +61,6 @@ public class Sequencer {
         for (int i = 0; i < cameras.length; i++) {
           println(cameras[i]);
         }
-        
-        // The camera can be initialized directly using an 
-        // element from the array returned by list():
         cam = new Capture(tweetSeq, 1280, 720);
         cam.start();     
       } 
@@ -107,6 +104,7 @@ public class Sequencer {
       Query query = new Query("#auspol");
       QueryResult result = twitter.search(query);
       int counter = 0;
+      tweetList.clear();
       for (Status status : result.getTweets()) {
         tweetList.add(new Tweet(status, 180, color(255, 255, 255), width-Constants.TWEET_WIDTH, counter, 
           Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT));
@@ -174,7 +172,7 @@ public class Sequencer {
     fill(color(255, 255, 255, 120));
     rect(5, 5, 50, 50);
     stroke(120);
-    fill(color(120, 120, 120, 120));
+    fill(color(255, 255, 255));
     if (playing) {
       rect(15, 10, 10, 40);
       rect(35, 10, 10, 40);
@@ -189,7 +187,7 @@ public class Sequencer {
     fill(color(255, 255, 255, 120));
     rect(65, 5, 50, 50);
     stroke(120);
-    fill(color(120, 120, 120, 120));
+    fill(color(255, 255, 255));
     rect(70, 10, 40, 40);
   }
   

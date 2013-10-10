@@ -94,7 +94,7 @@ public class Tweet {
   }
   
   private float calculatePitch() {
-    switch (status.getText().charAt(3)) {
+    switch (status.getText().charAt(5)) {
       case 'a':
       case 'b':
         return piano.get(0);
