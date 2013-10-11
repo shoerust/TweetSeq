@@ -7,7 +7,7 @@ public class Tweet {
   private float tweetHeight;
   private float xDifference;
   private float yDifference;
-  private float padding = 5;
+  private float padding;
   private boolean isPlaying;
   private boolean wasPlayed;
   private ArrayList<Float> piano;
@@ -29,6 +29,7 @@ public class Tweet {
     this.isPlaying = false;
     this.wasPlayed = false;
     this.amplitude = 0.2;
+    this.padding = 5;
     setupNote();
   }
   

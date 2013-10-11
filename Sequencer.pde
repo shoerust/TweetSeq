@@ -1,3 +1,8 @@
+/**
+ * Main class for handling all logic relating to the
+ * sequencer and retrieving and displaying tweets
+ */
+
 public class Sequencer {
   private Twitter twitter;
   private Capture cam;
@@ -243,13 +248,13 @@ public class Sequencer {
   
   public void removeActiveTweet() {
     if (mouseX < Constants.APPLICATION_WIDTH-300) {
-      int counter = -1;
-      for (Tweet tweet : activeTweetList) {
-        counter++;
+      int counter = activeTweetList.size();
+      for (Tweet tweet : Reversed.reversed(activeTweetList)) {
+        counter--;
         if (tweet.mouseIn(mouseX, mouseY))
           break;
       }
-      if (counter > -1)
+      if (counter < activeTweetList.size())
         activeTweetList.remove(counter);
     }
   }
