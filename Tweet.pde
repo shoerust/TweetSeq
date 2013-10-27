@@ -13,7 +13,10 @@ public class Tweet {
   private ArrayList<Float> piano;
   private float pitch;
   private float amplitude;
+  private Minim minim;
   private Note note;
+  private Sample sample;
+  private ArrayList<String> sampleNames;
   color c;
   
   public Tweet(Status status, float alpha, color c, float x, float y, float tweetWidth, float tweetHeight) {
@@ -30,6 +33,8 @@ public class Tweet {
     this.wasPlayed = false;
     this.amplitude = 0.2;
     this.padding = 5;
+    File f = new File("C:/Users/William/Documents/GitHub/TweetSeq/samples");
+    sampleNames = new ArrayList<String>(Arrays.asList(f.list()));
     setupNote();
   }
   
@@ -90,8 +95,22 @@ public class Tweet {
     this.isPlaying = true;
   }
   
+  public void playSample(Minim minim) {
+    this.minim = minim;
+    sample = new Sample(this.minim, sampleNames.get((int)random(3, sampleNames.size()-1)));
+    sample.playSample();
+    this.isPlaying = true;
+  }
+  
   public boolean noteStopped() {
     return note.stopped();
+  }
+  
+  public boolean sampleStopped() {
+    if (sample != null)
+      return sample.stopped();
+    else
+      return false;
   }
   
   private float calculatePitch() {

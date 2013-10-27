@@ -16,12 +16,12 @@ public class Sequencer {
   private float yOffset;
   private boolean playing;
   
-  public Sequencer() {
+  public Sequencer(Minim minim) {
       dateTime = new DateTime();
       tempo = 0.0;
       tweetList = new ArrayList<Tweet>();
       activeTweetList = new ArrayList<Tweet>();
-      minim = new Minim(this);
+      this.minim = minim;
       out = minim.getLineOut( Minim.STEREO, 2048 );
       playing = false;
   }
@@ -88,7 +88,7 @@ public class Sequencer {
      float time = period.getSeconds();
      if (time == 0.0) time = 1;
      if (time > 1.0) time = 1;
-     tempo += time*4;
+     tempo += time;
      dateTime = temp;
      if (tempo > width-300) {
        resetTimeIndicator();
@@ -187,7 +187,8 @@ public class Sequencer {
      for (Tweet tweet : activeTweetList) {
        tweet.drawTweet();
        if (!tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
-         tweet.playNote(this.out);
+         //tweet.playNote(this.out);
+         tweet.playSample(this.minim);
        }
        testStopped(tweet);
      }
@@ -198,6 +199,10 @@ public class Sequencer {
        tweet.setPlaying(false);
        tweet.setPlayed(true);
        tweet.resetNote();
+     }
+     if (tweet.sampleStopped()) {
+       tweet.setPlaying(false);
+       tweet.setPlayed(true);
      }
   }
   
