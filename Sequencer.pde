@@ -88,7 +88,7 @@ public class Sequencer {
      float time = period.getSeconds();
      if (time == 0.0) time = 1;
      if (time > 1.0) time = 1;
-     tempo += time;
+     tempo += time*1.2;
      dateTime = temp;
      if (tempo > width-300) {
        resetTimeIndicator();
@@ -144,6 +144,7 @@ public class Sequencer {
     if ((mouseX > 65 && mouseX < 115 
         && mouseY > 5 && mouseY < 55)) {
         playing = false;
+        stopSamples();
         resetTimeIndicator();
     }
     //refresh
@@ -174,6 +175,16 @@ public class Sequencer {
       }
     }
   }
+  
+  private void stopSamples() {
+    for (Tweet tweet : tweetList)
+      tweet.stopSample();
+  }
+//  
+//  private void pauseSamples() {
+//    for (Tweet tweet : tweetList)
+//      tweet.pauseSample();
+//  }
 
   public void drawTweets() { 
      strokeWeight(1);

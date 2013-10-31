@@ -97,9 +97,14 @@ public class Tweet {
   
   public void playSample(Minim minim) {
     this.minim = minim;
-    sample = new Sample(this.minim, sampleNames.get((int)random(3, sampleNames.size()-1)));
+    sample = new Sample(this.minim, getSampleName());
     sample.playSample();
     this.isPlaying = true;
+  }
+  
+  public void stopSample() {
+    if (sample != null)
+      sample.stopSample();
   }
   
   public boolean noteStopped() {
@@ -111,6 +116,56 @@ public class Tweet {
       return sample.stopped();
     else
       return false;
+  }
+  
+  private String getSampleName() {
+     switch (status.getText().charAt(5)) {
+      case 'a':
+      case 'b':
+        return sampleNames.get(3);
+      case 'c':
+        return sampleNames.get(4);
+      case 'd':
+        return sampleNames.get(5);
+      case 'e':
+      case 'f':
+        return sampleNames.get(3);
+      case 'g':
+      case 'h':
+        return sampleNames.get(4);
+      case 'i':
+      case 'j':
+        return sampleNames.get(5);
+      case 'k':
+      case 'l':
+        return sampleNames.get(6);
+      case 'm':
+        return sampleNames.get(7);
+      case 'n':
+        return sampleNames.get(8);
+      case 'o':
+        return sampleNames.get(9);
+      case 'p':
+      case 'q':
+        return sampleNames.get(10);
+      case 'r':
+      case 's':
+        return sampleNames.get(11);
+      case 't':
+        return sampleNames.get(3);
+      case 'u':
+        return sampleNames.get(4);
+      case 'v':
+        return sampleNames.get(5);
+      case 'w':
+        return sampleNames.get(3);
+      case 'x':
+      case 'y':
+      case 'z':
+        return sampleNames.get(4);
+      default:
+        return sampleNames.get(5);
+    }
   }
   
   private float calculatePitch() {

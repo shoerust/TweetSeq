@@ -16,7 +16,12 @@ public class Sample {
       return false;
   }
   
-  void stop() {
+  public void stopSample() {
+    sample.pause();
+    sample.close();
+  }
+  
+  public void stop() {
     sample.close();
   }
   
