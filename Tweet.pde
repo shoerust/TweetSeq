@@ -33,7 +33,7 @@ public class Tweet {
     this.wasPlayed = false;
     this.amplitude = 0.2;
     this.padding = 5;
-    File f = new File("C:/Users/William/Documents/GitHub/TweetSeq/samples");
+    File f = new File(sketchPath("samples"));
     sampleNames = new ArrayList<String>(Arrays.asList(f.list()));
     setupNote();
   }
@@ -80,7 +80,7 @@ public class Tweet {
             y >= this.y && y <= (this.y + this.tweetHeight));
   }
   
-  public boolean collision(float x) {
+  public boolean collision(double x) {
       return (x >= this.x && x <= (this.x + this.tweetWidth) &&
               this.y >= height-300);
   }
@@ -150,7 +150,7 @@ public class Tweet {
         return sampleNames.get(10);
       case 'r':
       case 's':
-        return sampleNames.get(11);
+        return sampleNames.get(9);
       case 't':
         return sampleNames.get(3);
       case 'u':

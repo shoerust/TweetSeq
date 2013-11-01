@@ -6,7 +6,7 @@
 public class Sequencer {
   private Twitter twitter;
   private Capture cam;
-  private float tempo;
+  private double tempo;
   private DateTime dateTime;
   private ArrayList<Tweet> tweetList;
   private ArrayList<Tweet> activeTweetList;
@@ -76,7 +76,7 @@ public class Sequencer {
   
   public void drawTimeIndicator() {
     stroke(255,0,0);
-    line(tempo, height-300, tempo, height);
+    line((float) tempo, height-300, (float) tempo, height);
     if (playing) {
       updateTimeIndicator();
     }
@@ -85,11 +85,16 @@ public class Sequencer {
   private void updateTimeIndicator() {
      DateTime temp = new DateTime();
      Period period = new Period(dateTime, temp);
-     float time = period.getSeconds();
+     double time = (double) period.getMillis();
+     time = time/1000;
+     println(time);
      if (time == 0.0) time = 1;
      if (time > 1.0) time = 1;
-     tempo += time*1.2;
+     println(time);
+     println("tempo" + tempo);
+     tempo += time*36;
      dateTime = temp;
+     println("tempo" + tempo);
      if (tempo > width-300) {
        resetTimeIndicator();
      }
