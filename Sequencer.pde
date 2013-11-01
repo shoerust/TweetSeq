@@ -18,7 +18,7 @@ public class Sequencer {
   
   public Sequencer(Minim minim) {
       dateTime = new DateTime();
-      tempo = 0.0;
+      tempo = (double) width-1200;
       tweetList = new ArrayList<Tweet>();
       activeTweetList = new ArrayList<Tweet>();
       this.minim = minim;
@@ -48,9 +48,13 @@ public class Sequencer {
      strokeWeight(3);
      stroke(255);
      fill(color(120,120,120,120));
-     rect(0, height-300, width-300, height-300);
-     rect(0, height-200, width-300, height-200);
-     rect(0, height-100, width-300, height-100);
+     //horizontal
+     rect(width-1200, height-300, width-380, height-300);
+     rect(width-1200, height-200, width-380, height-200);
+     rect(width-1200, height-100, width-380, height-100);
+     //vertical
+     line(width-900, height-300, width-900, height);
+     line(width-600, height-300, width-600, height);
      
      //draw buttons
      drawPlayButton();
@@ -92,7 +96,7 @@ public class Sequencer {
      if (time > 1.0) time = 1;
      println(time);
      println("tempo" + tempo);
-     tempo += time*36;
+     tempo += (double) time*35;
      dateTime = temp;
      println("tempo" + tempo);
      if (tempo > width-300) {
@@ -101,7 +105,7 @@ public class Sequencer {
   }
   
   private void resetTimeIndicator() {
-     tempo = 0; 
+     tempo = (double) width-1200; 
      resetTweets();
   }
   
@@ -132,7 +136,11 @@ public class Sequencer {
   
   public void updateTweet() {
     if (activeTweetList != null && activeTweetList.get(activeTweetList.size()-1) != null)  {
-      activeTweetList.get(activeTweetList.size()-1).updateLocation(xOffset, yOffset);
+      for (Tweet tweet : activeTweetList) {
+        if (tweet.mouseIn(mouseX, mouseY)) {
+          tweet.updateLocation(xOffset, yOffset);
+        }
+      }
     }
   }
   
@@ -144,6 +152,7 @@ public class Sequencer {
         playing = false;
       else
         playing = true;
+      stopSamples();
     }
     //stop
     if ((mouseX > 65 && mouseX < 115 
@@ -202,7 +211,7 @@ public class Sequencer {
      //draw active tweets
      for (Tweet tweet : activeTweetList) {
        tweet.drawTweet();
-       if (!tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
+       if (tempo > width-1200 && !tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
          //tweet.playNote(this.out);
          tweet.playSample(this.minim);
        }

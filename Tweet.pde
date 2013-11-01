@@ -230,10 +230,10 @@ public class Tweet {
     text("@" + getStatus().getUser().getScreenName() + "\n " 
       + getStatus().getText(), getX() + 50 + getPadding(), 
       getY() + getPadding(), 220, 85);
-    PImage img = loadImage("output/" + getStatus().getUser().getScreenName() + ".jpg");
+    PImage img = loadImage("output/" + getStatus().getUser().getScreenName() + ".jpeg");
     if (img == null) {
       img = loadImage(getStatus().getUser().getProfileImageURL(), "jpeg");
-      img.save("output/" + getStatus().getUser().getScreenName() + ".jpg");
+      img.save("output/" + getStatus().getUser().getScreenName() + ".jpeg");
     }
     image(img, getX() + getPadding(), getY() + getPadding() + 5);
   }
