@@ -23,7 +23,7 @@ void setup() {
   smooth();
   minim = new Minim(this);
   sequencer = new Sequencer(minim);
-  sequencer.setupCamera(this);
+//  sequencer.setupCamera(this);
   sequencer.retrieveTweets();
 }
  

@@ -32,10 +32,10 @@ public class Sequencer {
   
   public void drawSequencer() {
      background(255);
-     if (cam.available() == true) {
-       cam.read();
-     }
-     image(cam, 0, 0);
+//     if (cam.available() == true) {
+//       cam.read();
+//     }
+//     image(cam, 0, 0);
      strokeWeight(4);
      stroke(255);
      smooth(8);
@@ -62,21 +62,21 @@ public class Sequencer {
      drawRefreshButton();
   }
   
-  public void setupCamera(TweetSeq tweetSeq) {
-      String[] cameras = Capture.list();
-  
-      if (cameras.length == 0) {
-        println("There are no cameras available for capture.");
-        exit();
-      } else {
-        println("Available cameras:");
-        for (int i = 0; i < cameras.length; i++) {
-          println(cameras[i]);
-        }
-        cam = new Capture(tweetSeq, 1280, 720);
-        cam.start();     
-      } 
-  }
+//  public void setupCamera(TweetSeq tweetSeq) {
+//      String[] cameras = Capture.list();
+//  
+//      if (cameras.length == 0) {
+//        println("There are no cameras available for capture.");
+//        exit();
+//      } else {
+//        println("Available cameras:");
+//        for (int i = 0; i < cameras.length; i++) {
+//          println(cameras[i]);
+//        }
+//        cam = new Capture(tweetSeq, 1280, 720);
+//        cam.start();     
+//      } 
+//  }
   
   public void drawTimeIndicator() {
     stroke(255,0,0);

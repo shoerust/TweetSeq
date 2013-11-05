@@ -17,6 +17,9 @@ public class Tweet {
   private Note note;
   private Sample sample;
   private ArrayList<String> sampleNames;
+  private float kickOffset;
+  private float snareOffset;
+  private float hatOffset;
   color c;
   
   public Tweet(Status status, float alpha, color c, float x, float y, float tweetWidth, float tweetHeight) {
@@ -29,6 +32,9 @@ public class Tweet {
     this.tweetHeight = tweetHeight;
     this.xDifference = 0;
     this.yDifference = 0;
+    this.kickOffset = 0;
+    this.snareOffset = 0;
+    this.hatOffset = 0;
     this.isPlaying = false;
     this.wasPlayed = false;
     this.amplitude = 0.2;
@@ -223,10 +229,37 @@ public class Tweet {
   }
   
   public void drawTweet() {
+      if ( sample != null  )
+       {
+         if (sample.isSnare())
+         {
+         snareOffset = 100;
+         }
+         if (sample.isKick())
+         {
+         kickOffset = 100;
+         }
+         if (sample.isHat())
+         {
+         hatOffset = 100;
+         }  
+       }
     stroke(120);
     fill(getColor(), getAlpha());
     rect(getX(), getY(), Constants.TWEET_WIDTH, Constants.TWEET_HEIGHT, 20);
-    fill(0, 100);
+    if (snareOffset > 0)
+    {
+     snareOffset = snareOffset - 10; 
+    }
+    if (kickOffset > 0)
+    {
+     kickOffset = kickOffset - 10; 
+    }
+    if (hatOffset > 0)
+    {
+     hatOffset = hatOffset - 10; 
+    }
+    fill(hatOffset + 50, kickOffset + 50, snareOffset + 50);
     text("@" + getStatus().getUser().getScreenName() + "\n " 
       + getStatus().getText(), getX() + 50 + getPadding(), 
       getY() + getPadding(), 220, 85);
