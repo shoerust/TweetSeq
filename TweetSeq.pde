@@ -14,23 +14,37 @@ import ddf.minim.analysis.*;
 import ddf.minim.*;
 import ddf.minim.signals.*;
 
+
+
+
 private Sequencer sequencer;
 private Minim minim;
- 
+private Particles particles;
+private PeasyCam cam;
+
 void setup() {
-  size(Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT);
-  background(255);
+  size(Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT, P3D);
   smooth();
+  cam = new PeasyCam(this, Constants.APPLICATION_WIDTH/8, Constants.APPLICATION_HEIGHT/8, 0, 600);
+  cam.setActive(false);
+  background(255);
+
   minim = new Minim(this);
-  sequencer = new Sequencer(minim);
-//  sequencer.setupCamera(this);
+  particles = new Particles(cam);
+  sequencer = new Sequencer(minim,particles);
+  // sequencer.setupCamera(this);
   sequencer.retrieveTweets();
 }
- 
+
 void draw() {
+  background(255);
+  cam.beginHUD();
+  particles.speed();
+  particles.drawParticles();
   sequencer.drawSequencer();
   sequencer.drawTweets();
   sequencer.drawTimeIndicator();
+  cam.endHUD();
 }
 
 void mousePressed() {
@@ -38,7 +52,8 @@ void mousePressed() {
     sequencer.resetTweets();
     sequencer.buttonPressed();
     sequencer.setOffset();
-  } else if (mouseButton == RIGHT) {
+  } 
+  else if (mouseButton == RIGHT) {
     sequencer.playSample();
     sequencer.removeActiveTweet();
   }
@@ -47,5 +62,4 @@ void mousePressed() {
 void mouseDragged() {
   sequencer.updateTweet();
 }
-
 

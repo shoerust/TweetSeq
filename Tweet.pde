@@ -14,6 +14,7 @@ public class Tweet {
   private float pitch;
   private float amplitude;
   private Minim minim;
+  private Particles particles;
   private Note note;
   private Sample sample;
   private ArrayList<String> sampleNames;
@@ -101,9 +102,10 @@ public class Tweet {
     this.isPlaying = true;
   }
   
-  public void playSample(Minim minim) {
+  public void playSample(Minim minim,Particles particles) {
     this.minim = minim;
-    sample = new Sample(this.minim, getSampleName());
+    this.particles = particles;
+    sample = new Sample(this.minim, getSampleName(),particles);
     sample.playSample();
     this.isPlaying = true;
   }

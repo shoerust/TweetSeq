@@ -15,13 +15,15 @@ public class Sequencer {
   private float xOffset;
   private float yOffset;
   private boolean playing;
+  private Particles particles;
   
-  public Sequencer(Minim minim) {
+  public Sequencer(Minim minim,Particles particles) {
       dateTime = new DateTime();
       tempo = (double) width-1200;
       tweetList = new ArrayList<Tweet>();
       activeTweetList = new ArrayList<Tweet>();
       this.minim = minim;
+      this.particles = particles;
       out = minim.getLineOut( Minim.STEREO, 2048 );
       playing = false;
   }
@@ -31,7 +33,7 @@ public class Sequencer {
   }
   
   public void drawSequencer() {
-     background(255);
+   //  
 //     if (cam.available() == true) {
 //       cam.read();
 //     }
@@ -213,7 +215,7 @@ public class Sequencer {
        tweet.drawTweet();
        if (tempo > width-1200 && !tweet.wasPlayed() && tweet.collision(tempo) && !tweet.isPlaying()) {
          //tweet.playNote(this.out);
-         tweet.playSample(this.minim);
+         tweet.playSample(this.minim,this.particles);
        }
        testStopped(tweet);
      }
