@@ -10,6 +10,7 @@ public class Tweet {
   private float padding;
   private boolean isPlaying;
   private boolean wasPlayed;
+  private boolean isActive;
   private ArrayList<Float> piano;
   private float pitch;
   private float amplitude;
@@ -73,6 +74,8 @@ public class Tweet {
   public void setAlpha(float alpha) { this.alpha = alpha; }
   public float getX() { return this.x; }
   public float getY() { return this.y; }
+  public void setX(float x) { this.x = x; }
+  public void setY(float y) { this.y = y; }
   public Status getStatus() { return this.status; }
   public float getPadding() { return this.padding; }
   public float getWidth() { return this.tweetWidth; }
@@ -81,6 +84,9 @@ public class Tweet {
   public boolean wasPlayed() { return this.wasPlayed; }
   public void setPlaying(boolean playing) { this.isPlaying = playing; }
   public void setPlayed(boolean played) { this.wasPlayed = played; }
+  public void setActive() { this.isActive = true; }
+  public void setInactive() { this.isActive = false; }
+  public boolean isActive() { return this.isActive; }
   
   public boolean mouseIn(float x, float y) {
     return (x >= this.x && x <= (this.x + this.tweetWidth) &&
@@ -113,6 +119,16 @@ public class Tweet {
   public void stopSample() {
     if (sample != null)
       sample.stopSample();
+  }
+  
+  public void pauseSample() {
+    if (sample != null)
+      sample.pauseSample();
+  }
+  
+  public void resumeSample() {
+    if (sample != null)
+      sample.playSample();
   }
   
   public boolean noteStopped() {
