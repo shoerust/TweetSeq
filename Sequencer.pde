@@ -30,8 +30,10 @@ public class Sequencer {
     return this.cam;
   }
   
-  public void drawSequencer() {
+  public void drawSequencer(SimpleOpenNI context) {
      background(255);
+     image(drawKinect(context),0,0,Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT);
+     drawSkeleton(context);
 //     if (cam.available() == true) {
 //       cam.read();
 //     }
@@ -61,7 +63,28 @@ public class Sequencer {
      drawStopButton();
      drawRefreshButton();
   }
+  public void drawSkeleton(SimpleOpenNI context)
+  {
+    int i;
+    for (i=1; i<=10; i++)
+    {
+    // check if the skeleton is being tracked
+      if(context.isTrackingSkeleton(i))
+      {
+        println(i);
+      }
+    }
+  }
   
+  public PImage drawKinect(SimpleOpenNI context)
+  {
+    context.update();
+    if(context.deviceCount() > 0)
+    {
+      return context.depthImage();
+    }
+    else return createImage(66,66,RGB);
+  }
 //  public void setupCamera(TweetSeq tweetSeq) {
 //      String[] cameras = Capture.list();
 //  
