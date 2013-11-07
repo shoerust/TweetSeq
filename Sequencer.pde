@@ -105,6 +105,35 @@ public class Sequencer {
     }
   }
   
+    public void snapToGrid(PVector pos) {
+    for (Tweet tweet : activeTweetList) {
+      if (tweet.isActive()) {
+        float xLoc = pos.x;
+        // X location
+        if (xLoc >= 0 && xLoc < width - 900) {
+          tweet.setX(width-1200);
+        }
+        if (xLoc >= width-900 && xLoc < width - 600) {
+          tweet.setX(width-900);
+        }
+        if (xLoc >= width-600 && xLoc < width - 300) {
+          tweet.setX(width-600);
+        }
+        float yLoc =pos.y;
+        // Y location
+        if (yLoc <= height && yLoc > height - 100) {
+          tweet.setY(height-100);
+        }
+        if (yLoc <= height-100 && yLoc > height - 200) {
+          tweet.setY(height-200);
+        }
+        if (yLoc <= height-200 && yLoc > height - 300) {
+          tweet.setY(height-300);
+        }
+      }
+    }
+  }
+  
 //  public void setupCamera(TweetSeq tweetSeq) {
 //      String[] cameras = Capture.list();
 //  
@@ -213,6 +242,31 @@ public class Sequencer {
     }
   }
   
+  public void buttonPressed(PVector pos) {
+    //play/pause
+    if ((pos.x > 5 && pos.x < 55 
+        && pos.y > 5 && pos.y < 55)) {
+      if (playing) {
+        playing = false;
+        pauseSamples();
+      } else {
+        playing = true;
+        playSamples();
+      }
+    }
+    //stop
+    if ((pos.x > 65 && pos.x < 115 
+        && pos.y > 5 && pos.y < 55)) {
+        playing = false;
+        stopSamples();
+        resetTimeIndicator();
+    }
+    //refresh
+    if ((pos.x > Constants.APPLICATION_WIDTH-360 && pos.x < Constants.APPLICATION_WIDTH-310)
+         && (pos.y > 5 && pos.y < 55)) {
+       retrieveTweets();
+    }
+  }  
   public void setOffset() {
     int counter = 0;
     for (Tweet tweet : tweetList) {
@@ -229,6 +283,26 @@ public class Sequencer {
       if (tweet.mouseIn(mouseX, mouseY)) {
         xOffset = mouseX - tweet.getX();
         yOffset = mouseY - tweet.getY();
+        tweet.setActive();
+        break;
+      }
+    }
+  }
+ public void setOffset(PVector pos) {
+    int counter = 0;
+    for (Tweet tweet : tweetList) {
+      if (tweet.mouseIn(pos.x, pos.y)) {
+        xOffset = pos.x - tweet.getX();
+        yOffset = pos.y - tweet.getY();
+        addActiveTweet(counter);
+        break;
+      }
+      counter++;
+    }   
+    for (Tweet tweet : activeTweetList) {
+      if (tweet.mouseIn(pos.x, pos.y)) {
+        xOffset = pos.x- tweet.getX();
+        yOffset = pos.y - tweet.getY();
         tweet.setActive();
         break;
       }

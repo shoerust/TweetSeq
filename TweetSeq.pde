@@ -24,6 +24,9 @@ private Minim minim;
 private Particles particles;
 private PeasyCam cam;
 private SimpleOpenNI  context;
+PVector handVec = new PVector();
+
+private Boolean isgesturing = false;
 
 void setup() {
   size(Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT, P3D);
@@ -57,14 +60,36 @@ void setupKinect()
   context.enableDepth();
   context.enableRGB();
   context.enableHand();
-  context.startGesture(SimpleOpenNI.GESTURE_HAND_RAISE);
+  context.startGesture(SimpleOpenNI.GESTURE_WAVE);
 }
 
-
+void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
+{
+  
+  sequencer.resetTweets();
+  sequencer.buttonPressed(pos);
+  sequencer.setOffset(pos);
+  
+}
+public int mapWidth(PVector pos)
+{
+  return int(map(pos.x, 0, 500, 0, Constants.APPLICATION_WIDTH));
+}
 void onCompletedGesture(SimpleOpenNI curContext,int gestureType, PVector pos)
 {
   println("onCompletedGesture - gestureType: " + gestureType + ", pos: " + pos);
-  
+  if(isgesturing == true)
+  {
+    isgesturing = false;
+    sequencer.snapToGrid(pos);
+    sequencer.deactivateTweet();
+  }
+  else
+  {
+    context.startTrackingHand(pos);
+    isgesturing = true;
+  }
+  //context.startTrackingHand(pos);
  /* context.startTrackingHand(pos);
   
   int handId = context.startTrackingHand(pos);
