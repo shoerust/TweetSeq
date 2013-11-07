@@ -23,7 +23,11 @@ public class Sample {
   
   public void stopSample() {
     sample.pause();
-    sample.close();
+    sample.rewind();
+  }
+  
+  public void pauseSample() {
+    sample.pause();
   }
   
   public void stop() {

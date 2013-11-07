@@ -48,4 +48,8 @@ void mouseDragged() {
   sequencer.updateTweet();
 }
 
+void mouseReleased() {
+  sequencer.deactivateTweet();
+}
+
 
