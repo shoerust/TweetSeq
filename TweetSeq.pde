@@ -30,10 +30,11 @@ private Boolean isgesturing = false;
 
 void setup() {
   size(Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT, P3D);
+  text("TweetSeq", width/2-20, height/2);
   smooth();
+  background(205);
   cam = new PeasyCam(this, Constants.APPLICATION_WIDTH/8, Constants.APPLICATION_HEIGHT/8, 0, 600);
   cam.setActive(false);
-  background(255);
   setupKinect();
 
   minim = new Minim(this);
@@ -44,7 +45,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(205);
   cam.beginHUD();
   particles.speed();
   particles.drawParticles();

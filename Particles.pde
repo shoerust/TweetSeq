@@ -24,7 +24,7 @@ public class Particles {
   }
 
   public void setupParticles() {
-     for (int i = 0; i < 1; i++) {
+     for (int i = 0; i < 100; i++) {
        
       rand1 = random(-30,30);
       rand2 = random(-30,30);
