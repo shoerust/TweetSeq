@@ -1,9 +1,9 @@
 TweetSeq
 ============
-Author: William Southers
-Student #: 10855548
-Group: Triple S
-Other Group Members: Jaan Smith, Nathan Smith
+Created by Triple S:
+- William Southers
+- Jaan Smith
+- Nathan Smith
 
 TweetSeq is a prototype Processing application written using twitter4j for 
 Twitter integration, and the minim library for sound.
