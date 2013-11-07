@@ -14,6 +14,8 @@ import ddf.minim.analysis.*;
 import ddf.minim.*;
 import ddf.minim.signals.*;
 
+import SimpleOpenNI.*;
+
 
 
 
@@ -21,6 +23,7 @@ private Sequencer sequencer;
 private Minim minim;
 private Particles particles;
 private PeasyCam cam;
+private SimpleOpenNI  context;
 
 void setup() {
   size(Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT, P3D);
@@ -28,6 +31,7 @@ void setup() {
   cam = new PeasyCam(this, Constants.APPLICATION_WIDTH/8, Constants.APPLICATION_HEIGHT/8, 0, 600);
   cam.setActive(false);
   background(255);
+  setupKinect();
 
   minim = new Minim(this);
   particles = new Particles(cam);
@@ -45,6 +49,26 @@ void draw() {
   sequencer.drawTweets();
   sequencer.drawTimeIndicator();
   cam.endHUD();
+}
+
+void setupKinect()
+{
+  context = new SimpleOpenNI(this);
+  context.enableDepth();
+  context.enableRGB();
+  context.enableHand();
+  context.startGesture(SimpleOpenNI.GESTURE_HAND_RAISE);
+}
+
+
+void onCompletedGesture(SimpleOpenNI curContext,int gestureType, PVector pos)
+{
+  println("onCompletedGesture - gestureType: " + gestureType + ", pos: " + pos);
+  
+ /* context.startTrackingHand(pos);
+  
+  int handId = context.startTrackingHand(pos);
+  println("hand stracked: " + handId);*/
 }
 
 void mousePressed() {

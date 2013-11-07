@@ -38,6 +38,8 @@ public class Sequencer {
 //       cam.read();
 //     }
 //     image(cam, 0, 0);
+
+  image(drawKinect(context),0,0,Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT);
      strokeWeight(4);
      stroke(255);
      smooth(8);
@@ -62,6 +64,16 @@ public class Sequencer {
      drawPlayButton();
      drawStopButton();
      drawRefreshButton();
+  }
+    
+  public PImage drawKinect(SimpleOpenNI context)
+  {
+    context.update();
+    if(context.deviceCount() > 0)
+    {
+      return context.depthImage();
+    }
+    else return createImage(66,66,RGB);
   }
   
   public void snapToGrid() {
