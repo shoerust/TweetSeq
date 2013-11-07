@@ -30,10 +30,8 @@ public class Sequencer {
     return this.cam;
   }
   
-  public void drawSequencer(SimpleOpenNI context) {
+  public void drawSequencer() {
      background(255);
-     image(drawKinect(context),0,0,Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT);
-     drawSkeleton(context);
 //     if (cam.available() == true) {
 //       cam.read();
 //     }
@@ -63,28 +61,36 @@ public class Sequencer {
      drawStopButton();
      drawRefreshButton();
   }
-  public void drawSkeleton(SimpleOpenNI context)
-  {
-    int i;
-    for (i=1; i<=10; i++)
-    {
-    // check if the skeleton is being tracked
-      if(context.isTrackingSkeleton(i))
-      {
-        println(i);
+  
+  public void snapToGrid() {
+    for (Tweet tweet : activeTweetList) {
+      if (tweet.isActive()) {
+        float xLoc = mouseX;
+        // X location
+        if (xLoc >= 0 && xLoc < width - 900) {
+          tweet.setX(width-1200);
+        }
+        if (xLoc >= width-900 && xLoc < width - 600) {
+          tweet.setX(width-900);
+        }
+        if (xLoc >= width-600 && xLoc < width - 300) {
+          tweet.setX(width-600);
+        }
+        float yLoc = mouseY;
+        // Y location
+        if (yLoc <= height && yLoc > height - 100) {
+          tweet.setY(height-100);
+        }
+        if (yLoc <= height-100 && yLoc > height - 200) {
+          tweet.setY(height-200);
+        }
+        if (yLoc <= height-200 && yLoc > height - 300) {
+          tweet.setY(height-300);
+        }
       }
     }
   }
   
-  public PImage drawKinect(SimpleOpenNI context)
-  {
-    context.update();
-    if(context.deviceCount() > 0)
-    {
-      return context.depthImage();
-    }
-    else return createImage(66,66,RGB);
-  }
 //  public void setupCamera(TweetSeq tweetSeq) {
 //      String[] cameras = Capture.list();
 //  

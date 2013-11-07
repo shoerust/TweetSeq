@@ -73,6 +73,8 @@ public class Tweet {
   public void setAlpha(float alpha) { this.alpha = alpha; }
   public float getX() { return this.x; }
   public float getY() { return this.y; }
+  public void setX(float x) { this.x = x; }
+  public void setY(float y) { this.y = y; }
   public Status getStatus() { return this.status; }
   public float getPadding() { return this.padding; }
   public float getWidth() { return this.tweetWidth; }
