@@ -39,7 +39,7 @@ public class Sequencer {
 //     }
 //     image(cam, 0, 0);
 
-  //image(drawKinect(context),0,0,Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT);
+     image(drawKinect(context),0,0,Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT);
      strokeWeight(4);
      stroke(255);
      smooth(8);

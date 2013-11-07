@@ -16,9 +16,6 @@ import ddf.minim.signals.*;
 
 import SimpleOpenNI.*;
 
-
-
-
 private Sequencer sequencer;
 private Minim minim;
 private Particles particles;
@@ -30,13 +27,10 @@ private Boolean isgesturing = false;
 
 void setup() {
   size(Constants.APPLICATION_WIDTH, Constants.APPLICATION_HEIGHT, P3D);
-  text("TweetSeq", width/2-20, height/2);
   smooth();
-  background(205);
   cam = new PeasyCam(this, Constants.APPLICATION_WIDTH/8, Constants.APPLICATION_HEIGHT/8, 0, 600);
   cam.setActive(false);
   setupKinect();
-
   minim = new Minim(this);
   particles = new Particles(cam);
   sequencer = new Sequencer(minim,particles);
@@ -47,9 +41,9 @@ void setup() {
 void draw() {
   background(205);
   cam.beginHUD();
+  sequencer.drawSequencer();
   particles.speed();
   particles.drawParticles();
-  sequencer.drawSequencer();
   sequencer.drawTweets();
   sequencer.drawTimeIndicator();
   cam.endHUD();
