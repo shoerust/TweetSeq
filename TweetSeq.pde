@@ -60,7 +60,7 @@ void setupKinect()
 
 void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
-  
+  println("Tracking Hand pos: " + pos); 
   sequencer.resetTweets();
   sequencer.buttonPressed(pos);
   sequencer.setOffset(pos);
