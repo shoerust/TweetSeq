@@ -16,3 +16,9 @@ Right click on tweets in the right column to play their sound. Right click on
 tweets in the sampler to remove them.
 Buttons at the top of the screen allow you to play/pause and stop, and refresh
 the list of tweets.
+
+The following libraries are needed in your Processing installation's libraries directory for the source project to run:
+- peasycam version 2
+- SimpleOpenNI version 1.96
+
+Other required libraries are included in the project code directory. 
