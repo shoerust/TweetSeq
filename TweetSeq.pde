@@ -63,12 +63,7 @@ void mouseDragged() {
   sequencer.updateTweet();
 }
 
-<<<<<<< HEAD
-=======
 void mouseReleased() {
   sequencer.snapToGrid();
   sequencer.deactivateTweet();
 }
-
-
->>>>>>> 6cd5a3255f3719d5a5be4c0c16dc8f3c16380898
