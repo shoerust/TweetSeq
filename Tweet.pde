@@ -17,11 +17,15 @@ public class Tweet {
   private Minim minim;
   private Particles particles;
   private Note note;
+  private ArrayList<NoteType> bar;
+  public float overflow;
   private Sample sample;
   private ArrayList<String> sampleNames;
   private float kickOffset;
   private float snareOffset;
   private float hatOffset;
+  private String hash;
+  private MD5Hash md5;
   color c;
   
   public Tweet(Status status, float alpha, color c, float x, float y, float tweetWidth, float tweetHeight) {
@@ -41,6 +45,8 @@ public class Tweet {
     this.wasPlayed = false;
     this.amplitude = 0.2;
     this.padding = 5;
+    this.md5 = new MD5Hash();
+    this.bar = new ArrayList<NoteType>();
     File f = new File(sketchPath("samples"));
     sampleNames = new ArrayList<String>(Arrays.asList(f.list()));
     setupNote();
@@ -67,6 +73,7 @@ public class Tweet {
     piano.add(659.0);
     this.pitch = this.calculatePitch();
     this.note = new Note(this.pitch, this.amplitude);
+    this.hash = md5.hashString(status.getText());
   }
 
   public float getAlpha() { return this.alpha; }
@@ -288,5 +295,4 @@ public class Tweet {
     }
     image(img, getX() + getPadding(), getY() + getPadding() + 5);
   }
-  
 }
