@@ -1,10 +1,5 @@
 TweetSeq
 ============
-Created by Triple S:
-- William Southers
-- Jaan Smith
-- Nathan Smith
-q
 TweetSeq is a prototype Processing application written using twitter4j for 
 Twitter integration, and the minim library for sound.
 Based on the idea of using data sourced from twitter to create music, TweetSeq
